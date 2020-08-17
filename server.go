@@ -9,9 +9,12 @@ package main
 import (
 	"context"
 	"fmt"
+	"time"
 
 	"github.com/micro/go-micro/v2"
 	proto "go-micro-tutorials/proto"
+
+	_ "github.com/micro/go-plugins/registry/zookeeper"
 )
 
 type Greeter struct{}
@@ -25,6 +28,8 @@ func main() {
 	// 创建新的服务，这里可以传入其它选项。
 	service := micro.NewService(
 		micro.Name("greeter"),
+		micro.RegisterTTL(time.Second * 10),
+		micro.RegisterInterval(time.Second * 5),
 	)
 
 	// 初始化方法会解析命令行标识
